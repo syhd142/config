@@ -3,7 +3,7 @@ cd .
 
 CF_DIR=`pwd`
 
-git pull -q origin master
+#git pull -q origin master
 
 backup()
 {
