@@ -1,7 +1,4 @@
 #!/bin/bash
-#version 0.6
-#author: wklken
-#email: wklken@yeah.net
 
 ############
 #  format  #
@@ -13,13 +10,12 @@
 #alias name='/path/to/script.pl arg1'
 #unalias aliasname
 
-
-#extend old
-
-alias vim="mvim -v"
-
 alias vi="vim"
-alias edit="vim"
+#分屏同时打开多个文件
+#vim -oN filea fileb filec  
+vo(){
+   vim -o$# $*
+}
 alias grep="grep -nE --color"
 alias egrep="egrep --color=auto"
 alias fgrep="fgrep --color=auto"
@@ -35,13 +31,7 @@ alias du="du -h"
 alias last="last -a"
 alias free='free -m'
 alias lftp="lftp user:pwd@ftpip"
-#Notice: install colordiff
-alias diff='colordiff'
-#alias ln='ln -s'
 alias bc='bc -l'
-alias chrome='chromium-browser'
-alias py='python'
-alias ipy='ipython'
 
 #chdir
 alias ..="cd .."
@@ -57,16 +47,10 @@ alias -- -='cd -'
 alias cds='echo "`pwd`" > ~/.cdsave'  #cd save : save where i am
 alias cdb='cd "`cat ~/.cdsave`"'  # cd back
 
-
 #short cut
-alias s='sudo'   #sudo时
-alias apt-get='sudo apt-get'
-alias upgrade='sudo apt-get update && sudo apt-get upgrade'
-
 alias gu='iconv -f gbk -t utf-8'  #两种类型编码转换
 alias ug='iconv -f utf-8 -t gbk'
 alias ssh='ssh -2'
-alias ms='mysql -uroot -p123456'    #mysql
 
 alias sv="sudo vim"      #用sudo编辑文件时
 alias vd='vimdiff'  #vim diff两个文件
@@ -94,7 +78,6 @@ alias lz='ls -lhrS'        #sort by size
 alias lt='ls -lhrt'        #sort by date    最常用到，ls -rt，按修改时间查看目录下文件
 
 alias lsd='find . -maxdepth 1 -type d | sort'   #列出所有目录
-alias sl='ls'
 
 export OS=`uname`
 if [ $OS = "Linux" ]; then
@@ -107,51 +90,12 @@ alias pong='ping -c 5 '   #ping，限制
 alias ports='netstat -tulanp'
 alias dfind='find -type d -name'  #查找文件夹
 alias ffind='find -type f -name'  #查找文件
-alias chux='chmod u+x'    #该权限
-alias psg='ps aux|grep'   #查看
+alias psg='ps -ef|grep'   #查看
 alias meminfo='free -m -l -t'
 alias psmem='ps auxf | sort -nr -k 4'
 alias psmem10='ps auxf | sort -nr -k 4'
-## Get server cpu info ##
-alias cpuinfo='lscpu'
 
-alias md5='md5sum'
-
-alias rmpyc='find . -name "*.pyc" -exec rm -rf {} \; >> /dev/null 2>&1'  #递归删除目录下所有pyc
 alias now='date +"%Y-%m-%d %T"'
-
-#svn operation
-alias rmsvn='find . -name ".svn" -exec rm -rf {} \; >> /dev/null 2>&1'  #递归删除目录下所有.svn
-alias svnci='svn ci -m "commit by $USER" '   #便捷操作，适用一些不重要文件的，不建议适用哈
-alias svnst='svn st'    #少一个空格，少一个是一个......囧
-
-#for go
-alias gor='go run'
-alias gob='go build'
-
-#for nginx
-alias nginx='/etc/init.d/nginx'
-
-#for redis
-alias redis='/etc/init.d/redis_6379'
-alias rediscli='redis-cli'
-
-#get myip
-alias myip='curl ifconfig.me'
-
-#for tmux
-alias tm='tmux -2'
-alias tmux='tmux -2'
-alias tma='tmux -2 attach'
-
-#my own script
-alias bk="~/bin/back_up.py -i"    #use my backup script to backup a file/dir
-
-#for bash env file
-alias reload='source ~/.bashrc'
-alias bashrc='vim ~/.bashrc && source ~/.bashrc'
-alias bashpr='vim ~/.bash_profile && source ~/.bash_profile'
-alias vh='sudo vim /etc/hosts'
 
 #make a trash for linux
 mkdir -p ~/.trash
@@ -204,62 +148,10 @@ mktar(){ tar cvf  "${1%%/}.tar"     "${1%%/}/"; }
 mktgz(){ tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
 mktbz(){ tar cvjf "${1%%/}.tar.bz2" "${1%%/}/"; }
 
-
-#分屏同时打开多个文件
-#vim -oN filea fileb filec  
-vo(){
-   vim -o$# $*
-}
-
-#创建一个目录并跳转到
-#make a dir and cd into it 
-mcd(){
-    mkdir -pv "$@"
-    cd "$@"
-}
-
 #挪到回收站.....
 #move to trash
 del(){
     mv "$@" "~/.trash/"
-}
-
-
-#修复文件权限
-# recursively fix dir/file permissions on a given directory
-fix() {
-  if [ -d $1 ]; then
-    find $1 -type d -exec chmod 755 {} \;
-    find $1 -type f -exec chmod 644 {} \;
-  else
-    echo "$1 is not a directory."
-  fi
-}
-
-#一个时钟，用到不多
-# display a sweet clock
-clock () {
-  while true; do
-    clear;
-    echo "";
-    echo "    $(date +%r)";
-    echo "";
-    sleep 1;
-  done
-}
-
-
-#保存一个文件到tmp
-# save a file to ~/tmp
-saveit() {
-  cp $1 ${HOME}/tmp/${1}.saved
-}
-
-
-#交换两个文件
-# switch two files (comes in handy)
-switchfile() {
-  mv $1 ${1}.tmp && mv $2 $1 && mv ${1}.tmp $2
 }
 
 #查看自己常用命令top n
@@ -276,25 +168,3 @@ fi
 #最常用，复制一个路径过来时，不用修改，可以到达路径的最深一层目录
 #if dir,cd into it. if file ,cd into where the file is
 goto(){ [ -d "$1" ] && cd "$1" || cd "$(dirname "$1")"; } 
-
-#临时文件
-mvtmp(){
-  mv $1 ~/tmp/
-}
-
-function cptmp(){
-  cp -r $1 ~/tmp/
-}
-
-#need to add more useful functions
-#alias h?="history | grep "
-
-## Command prompt
-#PS1="\[$text_blue\]\u@\h: \w\[$reset\]\[$bold_blue\]>\[$reset\] "
-# grep for a process
-function psg {
-  FIRST=`echo $1 | sed -e 's/^\(.\).*/\1/'`
-  REST=`echo $1 | sed -e 's/^.\(.*\)/\1/'`
-  ps aux | grep "[$FIRST]$REST"
-}
-#alias download="wget -c -t0"

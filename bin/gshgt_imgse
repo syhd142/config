@@ -1,0 +1,59 @@
+#!/bin/bash
+export PATH=.:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/usr/local/bin
+
+###########################################################################
+export LC_ALL="zh_CN.UTF-8"
+
+BASE_DOMAIN="shgt.qihoo.net"
+MAIN_DOMAIN="imgse.shgt.qihoo.net"
+
+clusters_confirm()
+{
+    read num
+    if [ $num = "q" ]; then
+        exit 0;
+    fi
+    CLUSTERS_ARR=(${CLUSTERS})
+    if [[ $num =~ ^[0-9]+$ ]] ; then 
+        echo "w${num}.$MAIN_DOMAIN"
+    else 
+        echo "请输入正确的机器号,退出(q)"  
+        clusters_confirm
+    fi
+	return 0;
+}
+
+if [[ $1 =~ ^[0-9]+$ ]] 
+then 
+    host="w$1.$MAIN_DOMAIN"
+elif [[ -n $1 ]]
+then
+    host="$1.$MAIN_DOMAIN"
+else
+    echo '
+    ============ 服务器列表 ============ 
+    [展示机器]                   
+    w001.imgse.shgt.qihoo.net  
+    w002.imgse.shgt.qihoo.net  
+    w003.imgse.shgt.qihoo.net  
+    w004.imgse.shgt.qihoo.net  
+    w005.imgse.shgt.qihoo.net  
+    w006.imgse.shgt.qihoo.net  
+    w007.imgse.shgt.qihoo.net  
+    w008.imgse.shgt.qihoo.net  
+    [处理机器]                   
+    w009.imgse.shgt.qihoo.net	 
+    w010.imgse.shgt.qihoo.net	 
+    w011.imgse.shgt.qihoo.net	 
+    w012.imgse.shgt.qihoo.net	 
+    w013.imgse.shgt.qihoo.net	 
+    w014.imgse.shgt.qihoo.net	 
+    w015.imgse.shgt.qihoo.net	 
+    w016.imgse.shgt.qihoo.net	 
+    ';
+    echo "输入w-w[?].${MAIN_DOMAIN}服务器编号: (退出:q)" 
+    clusters_confirm
+    host="w-w${num}.$MAIN_DOMAIN"
+fi
+echo " Connecting $host ... "
+ssh $host

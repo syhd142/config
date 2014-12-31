@@ -1,0 +1,40 @@
+#!/bin/bash
+export PATH=.:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/usr/local/bin
+
+###########################################################################
+export LC_ALL="zh_CN.UTF-8"
+DEV_HOST=("10.16.29.125" "10.16.21.104" "10.16.28.12" "10.16.73.22" "client7v.qss.zzbc2.qihoo.net" "client21v.qss.zzbc2.qihoo.net")
+clusters_confirm()
+{
+    read num
+    if [ $num = "q" ]; then
+        exit 0;
+    fi
+    if [[ $num =~ ^[0-9]+$ ]] ; then 
+        echo "${DEV_HOST[${num}]}"
+    else 
+        echo "请输入正确的机器号,退出(q)"  
+        clusters_confirm
+    fi
+	return 0;
+}
+
+if [[ $1 =~ ^[0-9]+$ ]] 
+then 
+    host="${DEV_HOST[$1]}"
+else
+    echo '
+    ============ 服务器列表 ============ 
+    [0] 10.16.29.125
+    [1] 10.16.21.104
+    [2] 10.16.28.12
+    [3] 10.16.73.22
+    [4] client7v.qss.zzbc2.qihoo.net
+    [5] client21v.qss.zzbc2.qihoo.net
+    ';
+    echo "输入[?]服务器编号: (退出:q)" 
+    clusters_confirm
+    host="${DEV_HOST[$num]}"
+fi
+echo " Connecting $host ... "
+ssh $host

@@ -1,0 +1,43 @@
+#!/bin/bash
+export PATH=.:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/usr/local/bin
+
+###########################################################################
+export LC_ALL="zh_CN.UTF-8"
+BASE_DOMAIN="awssg.qihoo.net"
+MAIN_DOMAIN="pic.awssg.qihoo.net"
+clusters_confirm()
+{
+    read num
+    if [ $num = "q" ]; then
+        exit 0;
+    fi
+    CLUSTERS_ARR=(${CLUSTERS})
+    if [[ $num =~ ^[0-9]+$ ]] ; then 
+        echo "w${num}.$MAIN_DOMAIN"
+    else 
+        echo "请输入正确的机器号,退出(q)"  
+        clusters_confirm
+    fi
+	return 0;
+}
+
+if [[ $1 =~ ^[0-9]+$ ]] 
+then 
+    host="w$1.$MAIN_DOMAIN"
+elif [[ -n $1 ]]
+then
+    host="$1.$MAIN_DOMAIN"
+else
+    echo '
+    ============ 服务器列表 ============ 
+    [展示机器]
+    w1.pic.awssg.qihoo.net 
+    [处理机器]
+    w2.pic.awssg.qihoo.net 
+    ';
+    echo "输入w[?].${MAIN_DOMAIN}服务器编号: (退出:q)" 
+    clusters_confirm
+    host="w${num}.$MAIN_DOMAIN"
+fi
+echo " Connecting $host ... "
+ssh $host

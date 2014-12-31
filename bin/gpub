@@ -1,0 +1,8 @@
+#!/bin/bash
+export PATH=.:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/usr/local/bin
+
+###########################################################################
+export LC_ALL="zh_CN.UTF-8"
+host="cloudops2.kill.corp.qihoo.net"
+echo " Connecting $host ... "
+ssh $host

@@ -4,13 +4,16 @@
 alias ga='git add '
 alias gd='git diff'
 alias gr='git rm'
-alias gs='git status'
 alias gss='git status -s'
+alias gst='git status'
 alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset' --abbrev-commit"
-alias gc='git commit -m'
-alias gull='git pull origin'
+alias gci='git commit -a -m '
+alias gpull='git pull origin'
 alias gush='git push origin'
-alias gco='git checkout'
+alias gb='git branch '
+alias gco='git checkout '
+alias gcb='git checkout '
+alias gadd='git status | grep -v "modified"   | grep -v "deleted" | grep -E "src" | sed "s/#//g" '
 
 #alias grpyc="git status | awk '{if($2=\"deleted:\"){printf $3\" \"}}'"
 #alias grpyc="git status | awk '{if($3 ~ /pyc$/){printf $3\" \"}}'"

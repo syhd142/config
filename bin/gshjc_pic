@@ -1,0 +1,66 @@
+#!/bin/bash
+export PATH=.:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/usr/local/bin
+
+###########################################################################
+export LC_ALL="zh_CN.UTF-8"
+
+BASE_DOMAIN="shjc.qihoo.net"
+MAIN_DOMAIN="pic.shjc.qihoo.net"
+
+clusters_confirm()
+{
+    read num
+    if [ $num = "q" ]; then
+        exit 0;
+    fi
+    CLUSTERS_ARR=(${CLUSTERS})
+    if [[ $num =~ ^[0-9]+$ ]] ; then 
+        echo "w${num}.$MAIN_DOMAIN"
+    else 
+        echo "请输入正确的机器号,退出(q)"  
+        clusters_confirm
+    fi
+	return 0;
+}
+
+if [[ $1 =~ ^[0-9]+$ ]]
+then 
+    host="w$1.$MAIN_DOMAIN"
+elif [[ -n $1 ]]
+then
+    host="$1.$MAIN_DOMAIN"
+else
+    echo '
+    ============ 服务器列表 ============ 
+    [展示机器]
+     w1.pic.shjc.qihoo.net
+     w2.pic.shjc.qihoo.net
+     w3.pic.shjc.qihoo.net
+     w4.pic.shjc.qihoo.net
+     w5.pic.shjc.qihoo.net
+     w6.pic.shjc.qihoo.net
+     w7.pic.shjc.qihoo.net
+     w8.pic.shjc.qihoo.net
+    [v2后台上传机器]
+     w9.pic.shjc.qihoo.net
+     w10.pic.shjc.qihoo.net
+     w11.pic.shjc.qihoo.net
+     w12.pic.shjc.qihoo.net
+    [处理机器]
+     w13.pic.shjc.qihoo.net
+     w14.pic.shjc.qihoo.net
+     w15.pic.shjc.qihoo.net
+     w16.pic.shjc.qihoo.net
+     w17.pic.shjc.qihoo.net
+     w18.pic.shjc.qihoo.net
+     w19.pic.shjc.qihoo.net
+     w20.pic.shjc.qihoo.net
+    [代理机器]
+     w21.pic.shjc.qihoo.net
+    ';
+    echo "输入w[?].${MAIN_DOMAIN}服务器编号: (退出:q)" 
+    clusters_confirm
+    host="w${num}.$MAIN_DOMAIN"
+fi
+echo " Connecting $host ... "
+ssh $host

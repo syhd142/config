@@ -1,0 +1,66 @@
+#!/bin/bash
+export PATH=.:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/usr/local/bin
+
+###########################################################################
+export LC_ALL="zh_CN.UTF-8"
+
+BASE_DOMAIN="shgt.qihoo.net"
+MAIN_DOMAIN="pic.shgt.qihoo.net"
+
+clusters_confirm()
+{
+    read num
+    if [ $num = "q" ]; then
+        exit 0;
+    fi
+    CLUSTERS_ARR=(${CLUSTERS})
+    if [[ $num =~ ^[0-9]+$ ]] ; then 
+        echo "w${num}.$MAIN_DOMAIN"
+    else 
+        echo "请输入正确的机器号,退出(q)"  
+        clusters_confirm
+    fi
+	return 0;
+}
+
+if [[ $1 =~ ^[0-9]+$ ]]
+then 
+    host="w$1.$MAIN_DOMAIN"
+elif [[ -n $1 ]]
+then
+    host="$1.$MAIN_DOMAIN"
+else
+    echo '
+    ============ 服务器列表 ============ 
+    [展示机器]
+     w1.pic.shgt.qihoo.net
+     w2.pic.shgt.qihoo.net
+     w3.pic.shgt.qihoo.net
+     w4.pic.shgt.qihoo.net
+     w5.pic.shgt.qihoo.net
+     w6.pic.shgt.qihoo.net
+     w7.pic.shgt.qihoo.net
+     w8.pic.shgt.qihoo.net
+    [v2后台上传机器]
+     w9.pic.shgt.qihoo.net
+     w10.pic.shgt.qihoo.net
+     w11.pic.shgt.qihoo.net
+     w12.pic.shgt.qihoo.net
+    [处理机器]
+     w13.pic.shgt.qihoo.net
+     w14.pic.shgt.qihoo.net
+     w15.pic.shgt.qihoo.net
+     w16.pic.shgt.qihoo.net
+     w17.pic.shgt.qihoo.net
+     w18.pic.shgt.qihoo.net
+     w19.pic.shgt.qihoo.net
+     w20.pic.shgt.qihoo.net
+    [代理机器]
+     w21.pic.shgt.qihoo.net
+    ';
+    echo "输入w-w[?].${MAIN_DOMAIN}服务器编号: (退出:q)" 
+    clusters_confirm
+    host="w-w${num}.$MAIN_DOMAIN"
+fi
+echo " Connecting $host ... "
+ssh $host

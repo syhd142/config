@@ -1,0 +1,49 @@
+#!/bin/bash
+export PATH=.:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/usr/local/bin
+
+###########################################################################
+export LC_ALL="zh_CN.UTF-8"
+
+BASE_DOMAIN="zzct.qihoo.net"
+MAIN_DOMAIN="imgse.zzct.qihoo.net"
+
+clusters_confirm()
+{
+    read num
+    if [ $num = "q" ]; then
+        exit 0;
+    fi
+    CLUSTERS_ARR=(${CLUSTERS})
+    if [[ $num =~ ^[0-9]+$ ]] ; then 
+        echo "w${num}.$MAIN_DOMAIN"
+    else 
+        echo "请输入正确的机器号,退出(q)"  
+        clusters_confirm
+    fi
+	return 0;
+}
+
+if [[ $1 =~ ^[0-9]+$ ]]
+then 
+    host="w$1.$MAIN_DOMAIN"
+elif [[ -n $1 ]]
+then
+    host="$1.$MAIN_DOMAIN"
+else
+    echo '
+    ============ 服务器列表 ============ 
+    [未知功能展示机器]
+     w006.imgse.zzct.qihoo.net
+     w007.imgse.zzct.qihoo.net
+     w008.imgse.zzct.qihoo.net
+     w009.imgse.zzct.qihoo.net
+     w010.imgse.zzct.qihoo.net
+     w011.imgse.zzct.qihoo.net
+     w012.imgse.zzct.qihoo.net
+    ';
+    echo "输入w[?].${MAIN_DOMAIN}服务器编号: (退出:q)" 
+    clusters_confirm
+    host="w${num}.$MAIN_DOMAIN"
+fi
+echo " Connecting $host ... "
+ssh $host
