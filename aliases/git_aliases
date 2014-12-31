@@ -13,7 +13,6 @@ alias gush='git push origin'
 alias gb='git branch '
 alias gco='git checkout '
 alias gcb='git checkout '
-alias gadd='git status | grep -v "modified"   | grep -v "deleted" | grep -E "src" | sed "s/#//g" '
 
 #alias grpyc="git status | awk '{if($2=\"deleted:\"){printf $3\" \"}}'"
 #alias grpyc="git status | awk '{if($3 ~ /pyc$/){printf $3\" \"}}'"
