@@ -1,0 +1,136 @@
+syntax on
+set smartindent
+if has("vms")
+    set nobackup	
+else	  
+    set backup
+endif
+set ruler
+set showcmd
+filetype plugin indent on
+set tabstop=4
+set expandtab
+set shiftwidth=4
+set foldcolumn=2
+set incsearch
+set foldmethod=marker
+set backupdir=~/backup/vim
+set backupext=.bak
+set showmatch
+set number
+set hlsearch
+
+"map <F9> :!/usr/local/bin/ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+"map <F3> <Esc>:wnext <Enter>
+"map <F4> <Esc>:wprevious <Enter>
+"map <F2> <Esc>:w <Enter> <Esc>:make <Enter>
+map vi' <Esc>?'<CR>lv/'<CR>h
+map vi" <Esc>?"<CR>lv/"<CR>h
+map va' <Esc>?'<CR>v/'<CR>
+map va" <Esc>?"<CR>v/"<CR>
+map vix <Esc>?><CR>lv/<<CR>h
+map vi= <ESC>?\s\+\S\+\s*=\s*\S\+<CR>lv/=<CR>/\S<CR>/[\s<>\n]<CR>h
+map vi/ <Esc>?\/<CR>l<Esc>v/\/<CR>h
+map vt) <ESC>v/)<CR>h
+map vt' <ESC>v/'<CR>h
+map vt" <ESC>v/"<CR>h
+map vt; <ESC>v/;<CR>h
+map vt, <ESC>v/,<CR>h
+map vt} <ESC>v/}<CR>h
+
+noremap <silent> <F11> :cal VimCommanderToggle()<CR>
+noremap \cmd :cal VimCommanderToggle()<CR>
+
+let Tlist_Show_One_File=1
+let Tlist_Exit_OnlyWindow=1
+
+set csto=0
+
+" ============= ADD COPYRIGHT INFO ========== 
+map <F2> :call TitleDet()<cr>'s
+function AddTitle()
+    call append(0,"/*")
+    call append(1, "*")
+    call append(2, "* Author: Luyongjing luyongjing@360.cn")
+    call append(3, "* Last modified: ".strftime("%Y-%m-%d %H:%M"))
+    call append(4, "* Filename: ".expand("%:t"))
+    call append(5, "* Description: ")
+    call append(6, "*")
+    call append(7, "*/")
+    echohl WarningMsg | echo "Successful in adding the copyright." | echohl None
+endf
+
+function UpdateTitle()
+    normal m'
+    execute '/# *Last modified:/s@:.*$@\=strftime(":\t%Y-%m-%d %H:%M")@'
+    normal ''
+    normal mk
+    execute '/# *Filename:/s@:.*$@\=":\t\t".expand("%:t")@'
+    execute "noh"
+    normal 'k
+    echohl WarningMsg | echo "Successful in updating the copy right." | echohl None
+endfunction
+
+function TitleDet()
+    let n=1
+    while n < 10
+        let line = getline(n)
+        if line =~ '^\#\s*\S*Last\smodified:\S*.*$'
+            call UpdateTitle()
+            return
+        endif
+        let n = n + 1
+    endwhile
+    call AddTitle()
+endfunction
+" ============= ADD COPYRIGHT INFO ========== 
+
+noremap \dc <Esc>:Dox<CR>
+noremap \dd <Esc>:DoxUndoc<CR>
+noremap \da <Esc>:DoxAuthor<CR>
+
+if v:version >= 700
+    :nmap <C-w>p :tabprevious<cr>
+    "    :nmap <C-w>]:tabnext<cr>
+    :map <C-w>p :tabprevious<cr>
+    "    :map <C-w>n :tabnext<cr>
+    "    :imap <C-w>p <ESC>:tabprevious<cr>i
+    "    :imap <C-w>x <ESC>:tabnext<cr>i
+    :nmap <C-w>t :tabnew<cr>
+    :imap <C-w>t <ESC>:tabnew<cr>
+endif
+
+set helplang=en
+
+" ============= PHP FUNCTION BEGIN ========== 
+set dictionary-=~/.vim/doc/funclist.txt dictionary+=~/.vim/doc/funclist.txt
+set complete-=k complete+=k
+function! InsertTabWrapper()
+    let col=col('.')-1
+    if !col || getline('.')[col-1] !~ '\k'
+        return "\<TAB>"
+    else
+        return "\<C-N>"
+    endif
+endfunction
+inoremap <TAB> <C-R>=InsertTabWrapper()<CR>
+" ============= PHP FUNCTION END ========== 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" cscope setting
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"if has("cscope")
+"    set csprg=/usr/local/bin/cscope
+"    set csto=1
+"    set cst
+"    set nocsverb
+"    " add any database in current directory
+"    if filereadable("./cscope.out")
+"        cs add cscope.out
+"    endif
+"    set csverb
+"endif
+
+nmap <F9> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' -o -iname '*.php' > cscope.files<CR> 
+            \ :!cscope -b -i cscope.files -f cscope.out<CR> 
+            \ :cs reset<CR>

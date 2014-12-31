@@ -4,12 +4,14 @@ cd .
 CF_DIR=`pwd`
 
 #更新配置的子模块到最新版本
-git submodule init
-git submodule update
-git submodule -q foreach git pull -q origin master
+git pull -q origin master
 
 #.bash_profile
 ln -s $CF_DIR/aliases/bash_profile ~/.bash_profile
+
+#.vim
+ln -s $CF_DIR/vim/vimrc ~/.vimrc
+ln -s $CF_DIR/vim/ ~/.vim
 
 #alias
 ALIASES_DIR="$CF_DIR/aliases"
@@ -19,10 +21,6 @@ do
     F_NAME=`basename $f`
     ln -s $f ~/"."$F_NAME
 done
-
-#dir_colors
-#ln -s dircolors.256dark ~/.dir_colors
-#ln -s $CF_DIR/dircolors-solarized/dircolors.256dark .dir_colors
 
 #completion
 COMPLETION_DIR="$CF_DIR/completions"
@@ -37,21 +35,6 @@ done
 #sh -x $CF_DIR/k-vim/install.sh
 
 ln -s $CF_DIR/bin ~/bin
-
-#if [ ! -d ~/tmp ]
-#then
-#    mkdir ~/tmp
-#fi
-#
-#if [ ! -d ~/bak/vimbk ]
-#then
-#    mkdir -p ~/bak/vimbk
-#fi
-#
-#if [ ! -d ~/bak/vimundo ]
-#then
-#    mkdir -p ~/bak/vimundo
-#fi
 
 #configs
 ##for ssh
