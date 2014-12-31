@@ -30,5 +30,3 @@ The End!
 Email: syhd142@gmail.com
 
 Github: https://github.com/syhd142
-
-Blog: http://blog.csdn.net/wklken(待迁移)

@@ -3,13 +3,22 @@ cd .
 
 CF_DIR=`pwd`
 
-#更新配置的子模块到最新版本
 git pull -q origin master
 
-#.bash_profile
-ln -s $CF_DIR/aliases/bash_profile ~/.bash_profile
+backup()
+{
+    if [ -h "$1" ]
+    then
+        unlink "$1" 
+    elif [ -e "$1" ]
+    then
+        mv "$1" "$1".bak
+    fi
+}
 
-#.vim
+#vim
+backup ~/.vimrc
+backup ~/.vim
 ln -s $CF_DIR/vim/vimrc ~/.vimrc
 ln -s $CF_DIR/vim/ ~/.vim
 
@@ -19,6 +28,7 @@ ALIASES_FILES=`ls $ALIASES_DIR/*aliases`
 for f in $ALIASES_FILES
 do
     F_NAME=`basename $f`
+    backup ~/"."$F_NAME
     ln -s $f ~/"."$F_NAME
 done
 
@@ -28,12 +38,11 @@ ALIASES_FILES=`ls $COMPLETION_DIR/*completion`
 for f in $ALIASES_FILES
 do
     F_NAME=`basename $f`
+    backup ~/"."$F_NAME
     ln -s $f ~/"."$F_NAME
 done
 
-#自动安装配置vim
-#sh -x $CF_DIR/k-vim/install.sh
-
+backup ~/bin
 ln -s $CF_DIR/bin ~/bin
 
 #configs
@@ -47,4 +56,7 @@ ln -s $CF_DIR/bin ~/bin
 ##for git
 #ln -s $CF_DIR/config/git-config ~/.gitconfig
 
+#.bash_profile
+backup ~/.bash_profile
+ln -s $CF_DIR/aliases/bash_profile ~/.bash_profile
 . ~/.bash_profile
