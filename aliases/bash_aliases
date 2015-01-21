@@ -72,7 +72,7 @@ alias du1="du --max-depth=1"
 #alias lt='ls -lhrt --color=auto'        #sort by date    最常用到，ls -rt，按修改时间查看目录下文件
 
 #for mac
-alias ll='ls -al'   #ls相关，这里--color需要根据终端设
+alias ll='ls -l'   #ls相关，这里--color需要根据终端设
 alias lx='ls -lhBX'        #sort by extension
 alias lz='ls -lhrS'        #sort by size
 alias lt='ls -lhrt'        #sort by date    最常用到，ls -rt，按修改时间查看目录下文件

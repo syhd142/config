@@ -3,7 +3,8 @@ export PATH=.:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/usr/
 
 ###########################################################################
 export LC_ALL="zh_CN.UTF-8"
-DEV_HOST=("10.16.29.125" "10.16.21.104" "10.16.28.12" "10.16.73.22" "client7v.qss.zzbc2.qihoo.net" "client21v.qss.zzbc2.qihoo.net")
+DEV_HOST=("10.16.29.125" "10.16.21.104" "10.16.28.12" "10.16.73.22" \
+    "client7v.qss.zzbc2.qihoo.net" "client111v.safe.shgt.qihoo.net" "client21v.qss.zzbc2.qihoo.net" "client80v.safe.zzbc.qihoo.net")
 clusters_confirm()
 {
     read num
@@ -30,7 +31,9 @@ else
     [2] 10.16.28.12
     [3] 10.16.73.22
     [4] client7v.qss.zzbc2.qihoo.net
-    [5] client21v.qss.zzbc2.qihoo.net
+    [5] client111v.safe.shgt.qihoo.net
+    [6] client21v.qss.zzbc2.qihoo.net
+    [7] client80v.safe.zzbc.qihoo.net
     ';
     echo "输入[?]服务器编号: (退出:q)" 
     clusters_confirm
