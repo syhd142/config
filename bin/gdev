@@ -34,11 +34,11 @@ else
     [5] client111v.safe.shgt.qihoo.net
     [6] client21v.qss.zzbc2.qihoo.net
     [7] client80v.safe.zzbc.qihoo.net
-    [7] 123.56.155.20
+    [8] 123.56.155.20
     ';
     echo "输入[?]服务器编号: (退出:q)" 
     clusters_confirm
     host="${DEV_HOST[$num]}"
 fi
 echo " Connecting $host ... "
-ssh $host
+ssh root@$host
