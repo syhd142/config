@@ -1,0 +1,48 @@
+#!/bin/bash
+export PATH=.:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/usr/local/bin
+
+###########################################################################
+export LC_ALL="zh_CN.UTF-8"
+
+BASE_DOMAIN="zzzc.qihoo.net"
+MAIN_DOMAIN="se.zzzc.qihoo.net"
+
+clusters_confirm()
+{
+    read num
+    if [ $num = "q" ]; then
+        exit 0;
+    fi
+    CLUSTERS_ARR=(${CLUSTERS})
+    if [[ $num =~ ^[0-9]+$ ]] ; then 
+        echo "merger${num}.$MAIN_DOMAIN"
+    else 
+        echo "请输入正确的机器号,退出(q)"  
+        clusters_confirm
+    fi
+	return 0;
+}
+
+if [[ $1 =~ ^[0-9]+$ ]] 
+then 
+    host="merger$1.$MAIN_DOMAIN"
+elif [[ -n $1 ]]
+then
+    host="$1.$MAIN_DOMAIN"
+else
+    echo '
+    ============ 服务器列表 ============ 
+    [未知功能机器]                   
+    merger36.se.zzzc.qihoo.net  
+    merger37.se.zzzc.qihoo.net  
+    merger38.se.zzzc.qihoo.net  
+    merger39.se.zzzc.qihoo.net  
+    merger40.se.zzzc.qihoo.net  
+    merger41.se.zzzc.qihoo.net  
+    ';
+    echo "输入w[?].${MAIN_DOMAIN}服务器编号: (退出:q)" 
+    clusters_confirm
+    host="merger${num}.$MAIN_DOMAIN"
+fi
+echo " Connecting $host ... "
+ssh $host

@@ -53,8 +53,8 @@ alias ug='iconv -f utf-8 -t gbk'
 alias ssh='ssh -2'
 
 alias svim="sudo vim"      #用sudo编辑文件时
-alias vdiff='vimdiff'  #vim diff两个文件
-alias tailf='tail -f'  #动态查看文件变化
+alias vd='vimdiff'  #vim diff两个文件
+alias tf='tail -f'  #动态查看文件变化
 alias t100='tail -n 100'
 alias af="awk -F '\t' '{print NF}'"   #查看文件列数，用\t分隔，最常用，其实也可以搞个通用的，接收参数
 alias wl='wc -l'    #统计行数
