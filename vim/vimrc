@@ -1,32 +1,73 @@
-syntax on
-set smartindent
-if has("vms")
-    set nobackup	
-else	  
-    set backup
+set nocompatible
+syntax enable
+" --- configure Vundle ---
+filetype on
+filetype off
+
+set rtp+=~/.vim/team_bundle/Vundle.vim/
+
+call vundle#rc()
+
+" 团队vimrc文件根目录
+let VIMIDE_DIR=expand("<sfile>:p:h")
+
+if filereadable(expand(VIMIDE_DIR.'/.vim/vimrc.bundles'))
+    exec 'source '.VIMIDE_DIR.'/.vim/vimrc.bundles'
 endif
-set ruler
-set showcmd
+
+if filereadable(expand(VIMIDE_DIR."/.vim/vimrc.local"))
+    exec 'source '.VIMIDE_DIR.'/.vim/vimrc.local'
+endif
+
 filetype plugin indent on
+
+" --- END configure Vundle ---
+
+set backspace=indent,eol,start
+set smartindent
+set ruler
+set number
+set showcmd
 set tabstop=4
 set expandtab
 set shiftwidth=4
 set foldcolumn=2
+
+" Show the next match while entering a search
 set incsearch
+set showmatch
 set foldmethod=marker
+
+set history=10000
+set nrformats=
+
+set wildmenu
+set wildmode=full
+" set wildmode=longest,list
+
+if has("vms")
+  set nobackup
+else
+  set backup
+endif
+
+" 用 editorconfig 统一托管缩进格式，所以不需要对 Vim 单独配置
+" autocmd FileType html,css,javascript setlocal shiftwidth=2 | set foldmethod=indent
+autocmd BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/*,*_ngx.conf set filetype=nginx | syntax on
+
+let editorconfig=expand('~/.vim/team_bundle/.editorconfig')
+if filereadable(editorconfig)
+    let g:editorconfig_Beautifier=editorconfig
+endif
+
+" 备份文件位置
+if !filereadable(expand('~/backup/vim/'))
+    silent execute ":!mkdir -p ~/backup/vim"
+endif
 set backupdir=~/backup/vim
 set backupext=.bak
-set showmatch
-set number
-set hlsearch
-set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
-set termencoding=utf-8
-set encoding=utf-8
 
-"map <F9> :!/usr/local/bin/ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-"map <F3> <Esc>:wnext <Enter>
-"map <F4> <Esc>:wprevious <Enter>
-"map <F2> <Esc>:w <Enter> <Esc>:make <Enter>
+" Visual Mode 快捷键
 map vi' <Esc>?'<CR>lv/'<CR>h
 map vi" <Esc>?"<CR>lv/"<CR>h
 map va' <Esc>?'<CR>v/'<CR>
@@ -41,99 +82,35 @@ map vt; <ESC>v/;<CR>h
 map vt, <ESC>v/,<CR>h
 map vt} <ESC>v/}<CR>h
 
-noremap <silent> <F11> :cal VimCommanderToggle()<CR>
-noremap \cmd :cal VimCommanderToggle()<CR>
+" php和html文件的补全规则
+autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType c setlocal omnifunc=ccomplete#Complete
+autocmd FileType vim set omnifunc=syntaxcomplete#Complete
 
-let Tlist_Show_One_File=1
-let Tlist_Exit_OnlyWindow=1
+" html 默认折叠为2级
+autocmd BufRead,BufNewFile FileType html setlocal foldlevel=2
 
-set csto=0
+" 去除 PHP 尖括号「<:>」的默认匹配与自动补全
+autocmd FileType php set matchpairs-=<:>
 
-" ============= ADD COPYRIGHT INFO ========== 
-map <F2> :call TitleDet()<cr>'s
-function AddTitle()
-    call append(0,"/*")
-    call append(1, "*")
-    call append(2, "* Author: Luyongjing luyongjing@360.cn")
-    call append(3, "* Last modified: ".strftime("%Y-%m-%d %H:%M"))
-    call append(4, "* Filename: ".expand("%:t"))
-    call append(5, "* Description: ")
-    call append(6, "*")
-    call append(7, "*/")
-    echohl WarningMsg | echo "Successful in adding the copyright." | echohl None
-endf
+" 使 php 和 js 的单词带 $ 符号，从而修复 Debug 问题
+autocmd FileType php,javascript setlocal iskeyword+=$
+autocmd FileType php setlocal iskeyword-=-
 
-function UpdateTitle()
-    normal m'
-    execute '/# *Last modified:/s@:.*$@\=strftime(":\t%Y-%m-%d %H:%M")@'
-    normal ''
-    normal mk
-    execute '/# *Filename:/s@:.*$@\=":\t\t".expand("%:t")@'
-    execute "noh"
-    normal 'k
-    echohl WarningMsg | echo "Successful in updating the copy right." | echohl None
-endfunction
+" 保存前自动压缩末尾空格
+autocmd BufWritePre *.pl :%s/\s\+$//e
 
-function TitleDet()
-    let n=1
-    while n < 10
-        let line = getline(n)
-        if line =~ '^\#\s*\S*Last\smodified:\S*.*$'
-            call UpdateTitle()
-            return
-        endif
-        let n = n + 1
-    endwhile
-    call AddTitle()
-endfunction
-" ============= ADD COPYRIGHT INFO ========== 
+" 文件编码
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+scriptencoding utf-8
 
-noremap \dc <Esc>:Dox<CR>
-noremap \dd <Esc>:DoxUndoc<CR>
-noremap \da <Esc>:DoxAuthor<CR>
+" set background=dark
+set errorformat=%m\ in\ %f\ on\ line\ %l
 
-if v:version >= 700
-    :nmap <C-w>p :tabprevious<cr>
-    "    :nmap <C-w>]:tabnext<cr>
-    :map <C-w>p :tabprevious<cr>
-    "    :map <C-w>n :tabnext<cr>
-    "    :imap <C-w>p <ESC>:tabprevious<cr>i
-    "    :imap <C-w>x <ESC>:tabnext<cr>i
-    :nmap <C-w>t :tabnew<cr>
-    :imap <C-w>t <ESC>:tabnew<cr>
-endif
-
-set helplang=en
-
-" ============= PHP FUNCTION BEGIN ========== 
-set dictionary-=~/.vim/doc/funclist.txt dictionary+=~/.vim/doc/funclist.txt
-set complete-=k complete+=k
-function! InsertTabWrapper()
-    let col=col('.')-1
-    if !col || getline('.')[col-1] !~ '\k'
-        return "\<TAB>"
-    else
-        return "\<C-N>"
-    endif
-endfunction
-inoremap <TAB> <C-R>=InsertTabWrapper()<CR>
-" ============= PHP FUNCTION END ========== 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" cscope setting
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"if has("cscope")
-"    set csprg=/usr/local/bin/cscope
-"    set csto=1
-"    set cst
-"    set nocsverb
-"    " add any database in current directory
-"    if filereadable("./cscope.out")
-"        cs add cscope.out
-"    endif
-"    set csverb
-"endif
-
-nmap <F9> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' -o -iname '*.php' > cscope.files<CR> 
-            \ :!cscope -b -i cscope.files -f cscope.out<CR> 
-            \ :cs reset<CR>
+" 配色Vim为256
+set t_Co=256
+set bg=dark
+colorscheme default

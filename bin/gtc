@@ -3,15 +3,17 @@ export PATH=.:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/usr/
 
 ###########################################################################
 export LC_ALL="zh_CN.UTF-8"
-DEV_HOST=("123.56.155.20" "52.36.106.50" "10.20.1.11" "10.20.1.12" "10.20.1.13")
+BASE_DOMAIN="bjac.pdtv.it"
+MAIN_DOMAIN="plat.bjac.pdtv.it"
 clusters_confirm()
 {
     read num
     if [ $num = "q" ]; then
         exit 0;
     fi
+    CLUSTERS_ARR=(${CLUSTERS})
     if [[ $num =~ ^[0-9]+$ ]] ; then 
-        echo "${DEV_HOST[${num}]}"
+        echo "tc${num}v.$MAIN_DOMAIN"
     else 
         echo "请输入正确的机器号,退出(q)"  
         clusters_confirm
@@ -21,26 +23,22 @@ clusters_confirm()
 
 if [[ $1 =~ ^[0-9]+$ ]] 
 then 
-    host="${DEV_HOST[$1]}"
+    host="tc$1v.$MAIN_DOMAIN"
+elif [[ -n $1 ]]
+then
+    host="tc$1v.$MAIN_DOMAIN"
 else
     echo '
     ============ 服务器列表 ============ 
-    [0] 123.56.155.20
-    [1] 52.36.106.50
-    [2] 10.20.1.11
-    [3] 10.20.1.12
-    [4] 10.20.1.13
+    tc1v.plat.bjac.pdtv.it
+    tc2v.plat.bjac.pdtv.it
+    tc3v.plat.bjac.pdtv.it
+    tc4v.plat.bjac.pdtv.it
+    tc5v.plat.bjac.pdtv.it
     ';
-    echo "输入[?]服务器编号: (退出:q)" 
+    echo "输入tc[?]v.${MAIN_DOMAIN}服务器编号: (退出:q)" 
     clusters_confirm
-    host="${DEV_HOST[$num]}"
+    host="tc${num}v.$MAIN_DOMAIN"
 fi
-
-if [ -z "$2" ];then
-    user=luyongjing
-else
-    user=$2
-fi
-
 echo " Connecting $host ... "
-ssh $user@$host
+ssh $host
