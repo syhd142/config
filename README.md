@@ -19,7 +19,8 @@ config
 一键配置，直接执行
 
     sh -x install.sh
-
+    git submodule update --init
+    vj 打开Vim，输入:BundleInstal(安装vim插件)
 
 
 ------------------------
