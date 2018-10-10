@@ -1,0 +1,8 @@
+vim "+call VjOpen()"
+
+#if [ $# = 1 ]
+#then
+#vim +"set bg=dark" +"Project $1"
+#else
+#vim +"set bg=dark" +"Project .prjide"
+#fi

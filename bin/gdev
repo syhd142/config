@@ -1,0 +1,46 @@
+#!/bin/bash
+export PATH=.:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/usr/local/bin
+
+###########################################################################
+export LC_ALL="zh_CN.UTF-8"
+DEV_HOST=("123.56.155.20")
+DEV_PORT=("22")
+clusters_confirm()
+{
+    read num
+    if [ $num = "q" ]; then
+        exit 0;
+    fi
+    if [[ $num =~ ^[0-9]+$ ]] ; then 
+        echo "${DEV_HOST[${num}]}"
+    else 
+        echo "请输入正确的机器号,退出(q)"  
+        clusters_confirm
+    fi
+	return 0;
+}
+
+if [[ $1 =~ ^[0-9]+$ ]] 
+then 
+    host="${DEV_HOST[$1]}"
+    port="${DEV_PORT[$1]}"
+else
+    echo '
+    ============ 服务器列表 ============ 
+    jumper1v.infra.bjac.pdtv.it
+    [0] 123.56.155.20 52.36.106.50 54.64.138.12
+    ';
+    echo "输入[?]服务器编号: (退出:q)" 
+    clusters_confirm
+    host="${DEV_HOST[$num]}"
+    port="${DEV_PORT[$num]}"
+fi
+
+if [ -z "$2" ];then
+    user=luyongjing
+else
+    user=$2
+fi
+
+echo " Connecting $host ... "
+ssh $user@$host -p $port

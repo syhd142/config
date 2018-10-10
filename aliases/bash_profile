@@ -1,0 +1,66 @@
+echo "***********************************************************"
+echo "*                                                         *"
+echo "*                                                         *"
+echo "*         Weclome to Lu Yongjing's Computer!!!            *"
+echo "*                                                         *"
+echo "*                                                         *"
+echo "***********************************************************"
+
+
+##enables colorin the terminal bash shell export
+export CLICOLOR=1
+##sets up thecolor scheme for list export
+#export LSCOLORS=gxfxcxdxbxegedabagacad
+##sets up theprompt color (currently a green similar to linux terminal)
+#export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\]\$ '
+##enables colorfor iTerm
+#export TERM=xterm-color
+#export LC_ALL='zh_CN.GBK'
+export LC_ALL='en_US.UTF-8'
+#export LANG='zh_CN.GBK'
+export LANG='en_US.UTF-8'
+export LC_CTYPE='en_US.UTF-8'
+
+export PATH=$PATH:$HOME/bin
+export PICASSO_HOME="$HOME/devspace/picasso"
+export DAVINCI_HOME="$HOME/devspace/davinci"
+export CONFIG_HOME="$HOME/devspace/config"
+export EDITOR="vim"
+
+function git_branch
+{
+    ref=$(git symbolic-ref HEAD 2> /dev/null) || return;
+    echo "("${ref#refs/heads/}") ";
+}
+
+function git_since_last_commit
+{
+    now=`date +%s`;
+    last_commit=$(git log --pretty=format:%at -1 2> /dev/null) || return;
+    seconds_since_last_commit=$((now-last_commit));
+    minutes_since_last_commit=$((seconds_since_last_commit/60));
+    hours_since_last_commit=$((minutes_since_last_commit/60));
+    minutes_since_last_commit=$((minutes_since_last_commit%60));
+
+    echo "${hours_since_last_commit}h${minutes_since_last_commit}m ";
+}
+
+PS1="[\[\033[1;32m\]\u@\h \w\[\033[0m\]] \[\033[0m\]\[\033[1;36m\]\$(git_branch)\[\033[0;33m\]\$(git_since_last_commit)\[\033[0m\]$ "
+
+#all aliases
+ALIASES=`\ls ~/.*aliases`
+for f in $ALIASES
+do
+  if [ -f $f ];then
+     . $f
+  fi
+done
+
+#all completion
+ALIASES=`\ls ~/.*completion`
+for f in $ALIASES
+do
+  if [ -f $f ];then
+     . $f
+  fi
+done
