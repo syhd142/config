@@ -1,5 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_cnt =9
 let g:netrw_dirhist_1='/Users/luyongjing/backup'
 let g:netrw_dirhist_2='/Users/luyongjing/Downloads'
 let g:netrw_dirhist_3='/Users/luyongjing/.ssh'
@@ -8,3 +8,4 @@ let g:netrw_dirhist_5='/Users/luyongjing/devspace/test'
 let g:netrw_dirhist_6='/Users/luyongjing/.docker'
 let g:netrw_dirhist_7='/Users/luyongjing/devspace/stunnel/etc/stunnel'
 let g:netrw_dirhist_8='/Users/luyongjing/devspace/test/src/github.com/syhd142/stringutl'
+let g:netrw_dirhist_9='/home/lu.yongjing/devspace/config/vim/team_bundle/Vundle.vim'

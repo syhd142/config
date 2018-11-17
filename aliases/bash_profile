@@ -25,7 +25,6 @@ export PATH=$PATH:$HOME/bin
 export PICASSO_HOME="$HOME/devspace/picasso"
 export DAVINCI_HOME="$HOME/devspace/davinci"
 export CONFIG_HOME="$HOME/devspace/config"
-export EDITOR="vim"
 
 function git_branch
 {

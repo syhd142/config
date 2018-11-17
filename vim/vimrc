@@ -1,12 +1,12 @@
 set nocompatible
 syntax enable
-" --- configure Vundle ---
-filetype on
 filetype off
 
-set rtp+=~/.vim/team_bundle/Vundle.vim/
+" --- configure Vundle ---
+set shell=/bin/bash
+set rtp+=~/.vim/bundle/Vundle.vim/
 
-call vundle#rc()
+call vundle#begin()
 
 " 团队vimrc文件根目录
 let VIMIDE_DIR=expand("<sfile>:p:h")
@@ -19,6 +19,7 @@ if filereadable(expand(VIMIDE_DIR."/.vim/vimrc.local"))
     exec 'source '.VIMIDE_DIR.'/.vim/vimrc.local'
 endif
 
+call vundle#end()
 filetype plugin indent on
 
 " --- END configure Vundle ---
