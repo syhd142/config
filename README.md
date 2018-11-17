@@ -20,7 +20,9 @@ config
 
     sh -x install.sh
     git submodule update --init
-    vj 打开Vim，输入:BundleInstal(安装vim插件)
+    打开Vim，输入:BundleInstal(安装vim插件)
+    source ~/.bash_profile
+    进入项目目录，vj 进入ide
 
 
 ------------------------
