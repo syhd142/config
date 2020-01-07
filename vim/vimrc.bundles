@@ -60,7 +60,6 @@ Bundle 'rayburgemeestre/phpfolding.vim',      {'bundle_dir': team_bundle_dir}
 " Front End Bundle
 " Bundle 'rmanalan/jshint.vim',                 {'bundle_dir': team_bundle_dir}
 " Bundle 'pangloss/vim-javascript',             {'bundle_dir': team_bundle_dir}
-Bundle 'Blackrush/vim-gocode',                {'bundle_dir': team_bundle_dir}
 Bundle "mattn/emmet-vim",                     {'bundle_dir': team_bundle_dir}
 
 " Other
@@ -72,7 +71,9 @@ Plugin 'maksimr/vim-jsbeautify',              {'bundle_dir': team_bundle_dir}
 " Bundle 'brookhong/cscope.vim',                {'bundle_dir': team_bundle_dir}
 
 Bundle 'https://gameteam360@bitbucket.org/gameteam360/pylon_ide.git', {'bundle_dir': team_bundle_dir}
-" Bundle '2072/PHP-Indenting-for-VIm',        {'bundle_dir': team_bundle_dir}
+Bundle 'Blackrush/vim-gocode',                {'bundle_dir': team_bundle_dir}
+Bundle 'fatih/vim-go',                        {'bundle_dir': team_bundle_dir}
+Bundle 'dgryski/vim-godef',                   {'bundle_dir': team_bundle_dir}
 " Bundle 'lpenz/vimcommander'
 
 
