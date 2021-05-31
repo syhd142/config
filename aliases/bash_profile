@@ -9,19 +9,14 @@ echo "***********************************************************"
 
 ##enables colorin the terminal bash shell export
 export CLICOLOR=1
-##sets up thecolor scheme for list export
-#export LSCOLORS=gxfxcxdxbxegedabagacad
-##sets up theprompt color (currently a green similar to linux terminal)
-#export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\]\$ '
-##enables colorfor iTerm
-#export TERM=xterm-color
-#export LC_ALL='zh_CN.GBK'
 export LC_ALL='en_US.UTF-8'
-#export LANG='zh_CN.GBK'
 export LANG='en_US.UTF-8'
 export LC_CTYPE='en_US.UTF-8'
 
-export PATH=$PATH:$HOME/bin
+export GOROOT="/usr/local/go/"
+export GOPATH="$HOME/devspace/"
+export GOBIN="$GOPATH/bin"
+export PATH="$GOROOT/bin:$HOME/bin:$GOBIN:$PATH"
 export PICASSO_HOME="$HOME/devspace/picasso"
 export DAVINCI_HOME="$HOME/devspace/davinci"
 export CONFIG_HOME="$HOME/devspace/config"

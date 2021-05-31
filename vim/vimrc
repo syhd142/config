@@ -1,12 +1,13 @@
 set nocompatible
 syntax enable
-" --- configure Vundle ---
-filetype on
 filetype off
 
+" --- configure Vundle ---
+set shell=/bin/bash
 set rtp+=~/.vim/team_bundle/Vundle.vim/
+let g:godef_same_file_in_same_window=1
 
-call vundle#rc()
+call vundle#begin()
 
 " 团队vimrc文件根目录
 let VIMIDE_DIR=expand("<sfile>:p:h")
@@ -19,6 +20,7 @@ if filereadable(expand(VIMIDE_DIR."/.vim/vimrc.local"))
     exec 'source '.VIMIDE_DIR.'/.vim/vimrc.local'
 endif
 
+call vundle#end()
 filetype plugin indent on
 
 " --- END configure Vundle ---
@@ -34,6 +36,7 @@ set shiftwidth=4
 set foldcolumn=2
 
 " Show the next match while entering a search
+set hlsearch
 set incsearch
 set showmatch
 set foldmethod=marker
@@ -54,6 +57,7 @@ endif
 " 用 editorconfig 统一托管缩进格式，所以不需要对 Vim 单独配置
 " autocmd FileType html,css,javascript setlocal shiftwidth=2 | set foldmethod=indent
 autocmd BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/*,*_ngx.conf set filetype=nginx | syntax on
+autocmd FileType go nnoremap <buffer> <C-]> :call GodefUnderCursor()<cr>
 
 let editorconfig=expand('~/.vim/team_bundle/.editorconfig')
 if filereadable(editorconfig)
@@ -114,3 +118,9 @@ set errorformat=%m\ in\ %f\ on\ line\ %l
 set t_Co=256
 set bg=dark
 colorscheme default
+
+" Uncomment the following to have Vim jump to the last position when
+" reopening a file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
