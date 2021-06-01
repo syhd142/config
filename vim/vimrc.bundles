@@ -16,6 +16,7 @@ Bundle 'jistr/vim-nerdtree-tabs',             {'bundle_dir': team_bundle_dir}
 Bundle 'tomtom/tcomment_vim',                 {'bundle_dir': team_bundle_dir}
 " Bundle 'DoxygenToolkit.vim',                  {'bundle_dir': team_bundle_dir}
 Bundle 'L9',                                  {'bundle_dir': team_bundle_dir}
+Bundle 'tomlion/vim-solidity',                {'bundle_dir': team_bundle_dir}
 
 Bundle 'majutsushi/tagbar',                   {'bundle_dir': team_bundle_dir}
 

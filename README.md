@@ -19,6 +19,8 @@ config
 一键配置，直接执行
 
     sh -x install.sh
+    cd vim/team_bundle/
+    git clone https://github.com/VundleVim/Vundle.vim.git
     git submodule update --init
     打开Vim，输入:BundleInstal(安装vim插件)
     source ~/.bash_profile

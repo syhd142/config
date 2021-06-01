@@ -6,6 +6,7 @@ filetype off
 set shell=/bin/bash
 set rtp+=~/.vim/team_bundle/Vundle.vim/
 let g:godef_same_file_in_same_window=1
+let g:go_version_warning = 0
 
 call vundle#begin()
 
